@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Resource - Web Data Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>Web Data Tracker</h1>
+        <nav>
+            <a href="/">Dashboard</a>
+            <a href="/add">Add Resource</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="add-resource-container">
+            <h2>Add New Resource</h2>
+
+            <form id="addResourceForm">
+                <div class="form-group">
+                    <label for="collectorName">Collector Name</label>
+                    <input type="text" id="collectorName" name="collectorName" required placeholder="e.g., Alice">
+                </div>
+
+                <div class="form-group">
+                    <label for="resourceJson">Resource JSON Data</label>
+                    <textarea id="resourceJson" name="resourceJson" required rows="14" placeholder='{
+  "resources": [
+    {
+      "resource_type": "Book",
+      "title": "Deep Learning",
+      "authors": ["Ian Goodfellow", "Yoshua Bengio"],
+      "source": "Z-Library"
+    },
+    {
+      "resource_type": "ResearchPaper",
+      "arxiv_id": "1706.03762",
+      "source": "arXiv"
+    }
+  ]
+}'></textarea>
+                    <small>Ensure valid JSON format.</small>
+                </div>
+
+                <button type="submit" id="submitBtn">Check & Save</button>
+            </form>
+
+            <div id="statusMessage"></div>
+
+            <!-- Warning Modal / Area -->
+            <div id="duplicateWarning" class="hidden">
+                <h3>⚠️ Potential Duplicate Found</h3>
+                <div id="geminiExplanation" class="explanation-box"></div>
+                <div id="existingResource" class="resource-box"></div>
+
+                <div class="actions">
+                    <button id="cancelBtn" class="secondary">Cancel</button>
+                    <button id="forceSaveBtn" class="danger">Save Anyway</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

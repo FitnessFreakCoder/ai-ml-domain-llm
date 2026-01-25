@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Web Data Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>Web Data Tracker</h1>
+        <nav>
+            <a href="/">Dashboard</a>
+            <a href="/add">Add Resource</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dashboard-container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Collected Resources</h2>
+                <button id="openDeleteModalBtn" class="danger">Delete Options</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Authors</th>
+                        <th>Year</th>
+                        <th>Source</th>
+                        <th>Added By</th>
+                    </tr>
+                </thead>
+                <tbody id="resourceTableBody">
+                    <!-- Rows will be populated by JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Delete Modal -->
+        <div id="deleteModal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Delete Resources</h3>
+                <p>Select a delete action:</p>
+                <div class="modal-actions">
+                    <button id="deleteAllBtn" class="danger">Delete ALL Resources</button>
+                    <button id="deleteCollectorBtn" class="secondary">Delete by Collector</button>
+                    <button id="closeDeleteModalBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Load dashboard data on page load
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+
+</html>

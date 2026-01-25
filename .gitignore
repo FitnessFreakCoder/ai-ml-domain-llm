@@ -1,0 +1,5 @@
+# Data directory - contains heavy files
+Data/
+
+# Environment variables
+.env

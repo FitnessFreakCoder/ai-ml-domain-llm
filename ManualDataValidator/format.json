@@ -1,0 +1,365 @@
+{
+    "collector_name": "AI/ML Resource Collector",
+    "resources": [
+        {
+            "resource_type": "Book",
+            "title": "AI and Machine Learning in Action Real-World Solutions for Coders",
+            "normalized_title": "ai and machine learning in action real world solutions for coders",
+            "authors": [
+                "Aniket Jain"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Deep Learning",
+            "normalized_title": "deep learning",
+            "authors": [
+                "Ian Goodfellow",
+                "Yoshua Bengio",
+                "Aaron Courville"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Deep Learning Cookbook Practical Recipes to Get Started Quickly",
+            "normalized_title": "deep learning cookbook practical recipes to get started quickly",
+            "authors": [
+                "Douwe Osinga"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Deep Learning for Coders with fastai and PyTorch",
+            "normalized_title": "deep learning for coders with fastai and pytorch",
+            "authors": [
+                "Jeremy Howard Sylvain Gugger"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Deep Learning for Computer Vision - Image Classification, Object Detection and Face Recognition in Python",
+            "normalized_title": "deep learning for computer vision image classification object detection and face recognition in python",
+            "authors": [
+                "Jason Brownlee"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Deep Learning in Biometrics",
+            "normalized_title": "deep learning in biometrics",
+            "authors": [
+                "Mayank Vatsa",
+                "Richa Singh",
+                "Angshul Majumdar"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Deep Learning With Python A Crash Course to Deep Learning with illustrations in Python Programming Language",
+            "normalized_title": "deep learning with python a crash course to deep learning with illustrations in python programming language",
+            "authors": [
+                "Robert Kissinger"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Deep Learning with Python, Third Edition",
+            "normalized_title": "deep learning with python third edition",
+            "authors": [
+                "Francois Chollet",
+                "Matthew Watson"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Deep Learning with PyTorch",
+            "normalized_title": "deep learning with pytorch",
+            "authors": [
+                "Vishnu Subramanian"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Essential Math for AI Next-Level Mathematics for Efficient and Successful AI Systems",
+            "normalized_title": "essential math for ai next level mathematics for efficient and successful ai systems",
+            "authors": [
+                "Hala Nelson"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Foundations of Machine Learning, second edition",
+            "normalized_title": "foundations of machine learning second edition",
+            "authors": [
+                "Mehryar Mohri",
+                "Afshin Rostamizadeh"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Fundamentals of Deep Learning Designing Next-Generation Machine Intelligence Algorithms",
+            "normalized_title": "fundamentals of deep learning designing next generation machine intelligence algorithms",
+            "authors": [
+                "Nikhil Buduma",
+                "Nicholas Locascio"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Graph Neural Networks in Action",
+            "normalized_title": "graph neural networks in action",
+            "authors": [
+                "Keita Broadwater",
+                "Namid Stillman"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Hands-on Deep Learning. A Guide to Deep Learning with Projects and Applications",
+            "normalized_title": "hands on deep learning a guide to deep learning with projects and applications",
+            "authors": [
+                "Harsh Bhasin"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "How GPT Works (MEAP V01) = How Large Language Models Work",
+            "normalized_title": "how gpt works meap v01 how large language models work",
+            "authors": [
+                "Drew Farris",
+                "Edward Raff"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Inside Deep Learning Math, Algorithms, Models [MEAP]",
+            "normalized_title": "inside deep learning math algorithms models meap",
+            "authors": [
+                "Edward Raff"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Introduction to the Math of Neural Networks",
+            "normalized_title": "introduction to the math of neural networks",
+            "authors": [
+                "Jeff Heaton"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Learning Deep Learning Theory and Practice of Neural Networks, Computer Vision, NLP, and Transformers using TensorFlow",
+            "normalized_title": "learning deep learning theory and practice of neural networks computer vision nlp and transformers using tensorflow",
+            "authors": [
+                "Magnus Ekman"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Learning OpenCV 5 Computer Vision with Python Fourth Edition",
+            "normalized_title": "learning opencv 5 computer vision with python fourth edition",
+            "authors": [
+                "Joseph Howse",
+                "Joe Minichino"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Learning PyTorch 2.0 Experiment Deep Learning from basics to complex models using every potential capability",
+            "normalized_title": "learning pytorch 2 0 experiment deep learning from basics to complex models using every potential capability",
+            "authors": [
+                "Matthew Rosch"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Machine Learning Mathematics",
+            "normalized_title": "machine learning mathematics",
+            "authors": [
+                "Jackson Smart"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Mastering Machine Learning From Basics to Advanced",
+            "normalized_title": "mastering machine learning from basics to advanced",
+            "authors": [
+                "Govindakumar Madhavan"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Neural Networks from Scratch in Python",
+            "normalized_title": "neural networks from scratch in python",
+            "authors": [
+                "Harrison Kinsley",
+                "Daniel Kukie\u0142a"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Probabilistic Deep Learning With Python, Keras and TensorFlow Probability",
+            "normalized_title": "probabilistic deep learning with python keras and tensorflow probability",
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Probabilistic Machine Learning An Introduction",
+            "normalized_title": "probabilistic machine learning an introduction",
+            "authors": [
+                "Kevin P. Murphy"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Probability for Statistics and Machine Learning Fundamentals and Advanced Topics",
+            "normalized_title": "probability for statistics and machine learning fundamentals and advanced topics",
+            "authors": [
+                "Anirban DasGupta"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Real-World Natural Language Processing",
+            "normalized_title": "real world natural language processing",
+            "authors": [
+                "Masato Hagiwara"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Robust Machine Learning. Distributed Methods for Safe AI 2024",
+            "normalized_title": "robust machine learning distributed methods for safe ai 2024",
+            "authors": [
+                "Rachid Guerraoui",
+                "Nirupam Gupta",
+                "Rafael Pinot"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Unsupervised Deep Learning in Python",
+            "normalized_title": "unsupervised deep learning in python",
+            "authors": [
+                "LazyProgrammer"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Unsupervised Learning with Generative AI (MEAP V09) = Data Without Labels",
+            "normalized_title": "unsupervised learning with generative ai meap v09 data without labels",
+            "authors": [
+                "Vaibhav Verdhan"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "1406.2661",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "1412.6980",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "1512.03385",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "1810.04805",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2005.14165",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2006.11239",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2308.07661",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2412.16720",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2412.19437",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2501.09166",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2501.12948",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2501.17030",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2502.02523",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2504.07128",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2511.16719",
+            "source": "arXiv"
+        },
+        {
+            "resource_type": "ResearchPaper",
+            "arxiv_id": "2512.02556",
+            "source": "arXiv"
+        }
+    ]
+}

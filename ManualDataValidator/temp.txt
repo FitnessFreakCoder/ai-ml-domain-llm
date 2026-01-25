@@ -1,0 +1,37 @@
+{
+  "collector_name": "Sajak",
+  "resources": [
+    {
+      "resource_type": "Book",
+      "title": "Deep Learning",
+      "authors": ["Ian Goodfellow", "Yoshua Bengio", "Aaron Courville"],
+      "source": "Z-Library"
+    },
+    {
+      "resource_type": "ResearchPaper",
+      "arxiv_id": "1706.03762",
+      "source": "arXiv"
+    }
+  ]
+}
+
+
+This is my json format i only wanna work with this 
+everythign is same but 
+    {
+      "resource_type": "Book",
+      "title": "Deep Learning",
+      "authors": ["Ian Goodfellow", "Yoshua Bengio", "Aaron Courville"],
+      "source": "Z-Library"
+    },
+
+this block for book is dynamic means depends of number of book
+and for paper this block 
+
+    {
+      "resource_type": "ResearchPaper",
+      "arxiv_id": "1706.03762",
+      "source": "arXiv"
+    }
+
+so modoify my code to only handel this json 

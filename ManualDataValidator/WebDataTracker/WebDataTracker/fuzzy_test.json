@@ -1,0 +1,33 @@
+{
+    "resources": [
+        {
+            "resource_type": "Book",
+            "title": "Deep Learning: Volume 1",
+            "normalized_title": "deep learning volume 1",
+            "authors": [
+                "Ian Goodfellow",
+                "Yoshua Bengio",
+                "Aaron Courville"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Deep Learning with PyTorch (2020)",
+            "normalized_title": "deep learning with pytorch 2020",
+            "authors": [
+                "Vishnu Subramanian"
+            ],
+            "source": "Z-Library"
+        },
+        {
+            "resource_type": "Book",
+            "title": "Intro to the Math of Neural Networks",
+            "normalized_title": "intro to the math of neural networks",
+            "authors": [
+                "Jeff Heaton"
+            ],
+            "source": "Z-Library"
+        }
+    ]
+}
