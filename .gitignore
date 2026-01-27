@@ -3,3 +3,7 @@ Data/
 
 # Environment variables
 .env
+
+# DataCollector sensitive files
+DataCollectornValidatorAgent/accounts.json
+DataCollectornValidatorAgent/data/

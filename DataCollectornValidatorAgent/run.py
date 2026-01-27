@@ -1,6 +1,10 @@
 import asyncio
 import json
-from mcp_server import core_download_logic
+import os
+import dotenv
+from mcp_server import core_download_logic, load_accounts
+
+dotenv.load_dotenv()
 
 TOPICS_TO_DOWNLOAD = [
     "Machine Learning Mathematics", 
@@ -11,9 +15,8 @@ TOPICS_TO_DOWNLOAD = [
 DOWNLOADS_PER_ACCOUNT = 9  # Limit per account to avoid hitting Z-Library's daily cap
 
 async def main():
-    # Load accounts
-    with open("accounts.json", "r") as f:
-        accounts = json.load(f)
+    # Load accounts from env var or file
+    accounts = load_accounts()
     
     total_accounts = len(accounts)
     max_possible = total_accounts * DOWNLOADS_PER_ACCOUNT

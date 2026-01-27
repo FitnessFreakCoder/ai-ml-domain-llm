@@ -201,17 +201,23 @@ class LibrarianAgent:
             self.memory = None
     
     def _load_accounts(self):
+        """Load accounts from ZLIB_ACCOUNTS env var or fallback to accounts.json"""
         try:
-            with open("accounts.json", "r") as f:
-                accounts = json.load(f)
-                if not accounts:
-                    raise ValueError("No accounts found in accounts.json")
-                return accounts
-        except FileNotFoundError:
-            print("❌ ERROR: accounts.json not found")
-            sys.exit(1)
+            accounts_json = os.getenv("ZLIB_ACCOUNTS")
+            if accounts_json:
+                accounts = json.loads(accounts_json)
+            elif os.path.exists("accounts.json"):
+                with open("accounts.json", "r") as f:
+                    accounts = json.load(f)
+            else:
+                print("❌ ERROR: No accounts found! Set ZLIB_ACCOUNTS env var or create accounts.json")
+                sys.exit(1)
+            
+            if not accounts:
+                raise ValueError("No accounts found")
+            return accounts
         except json.JSONDecodeError:
-            print("❌ ERROR: accounts.json is invalid JSON")
+            print("❌ ERROR: Accounts JSON is invalid")
             sys.exit(1)
     
     def _trim_conversation_history(self):

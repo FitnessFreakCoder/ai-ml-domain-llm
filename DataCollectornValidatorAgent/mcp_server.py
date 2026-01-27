@@ -6,16 +6,27 @@ from fastmcp import FastMCP
 from playwright.async_api import async_playwright
 from openai import OpenAI 
 
+# Load environment variables first
+dotenv.load_dotenv()
+
 # --- CONFIGURATION ---
 BASE_URL = "https://z-lib.sk"
-DOWNLOAD_FOLDER = os.path.abspath("data/books")
-RESOURCES_FILE = "data/resources.json"
+DOWNLOAD_FOLDER = os.path.abspath(os.getenv("DATA_FOLDER", "data/books"))
+RESOURCES_FILE = os.getenv("RESOURCES_FILE", "data/resources.json")
 BROWSER_HEADLESS = os.getenv("BROWSER_HEADLESS", "false").lower() == "true"
 DOWNLOAD_COOLDOWN = int(os.getenv("DOWNLOAD_COOLDOWN", "40"))  # seconds
 LLM_TIMEOUT = int(os.getenv("LLM_TIMEOUT", "30"))  # seconds
 
-# Load environment variables
-dotenv.load_dotenv()
+def load_accounts():
+    """Load accounts from ZLIB_ACCOUNTS env var or fallback to accounts.json"""
+    accounts_json = os.getenv("ZLIB_ACCOUNTS")
+    if accounts_json:
+        return json.loads(accounts_json)
+    # Fallback to file for local development
+    if os.path.exists("accounts.json"):
+        with open("accounts.json", "r") as f:
+            return json.load(f)
+    raise ValueError("No accounts found! Set ZLIB_ACCOUNTS env var or create accounts.json")
 client = OpenAI() 
 
 mcp = FastMCP("ExpertLibrarian")
@@ -105,11 +116,10 @@ async def core_download_logic(topic: str, account: dict = None, max_books: int =
         (message, books_downloaded, list_of_books) tuple
     """
     
-    # If no account provided, load first from file (for MCP tool compatibility)
+    # If no account provided, load first from config (for MCP tool compatibility)
     if account is None:
-        with open("accounts.json", "r") as f: 
-            accounts = json.load(f)
-            account = accounts[0]
+        accounts = load_accounts()
+        account = accounts[0]
     
     download_count = 0
     downloaded_books = []  # Track what we downloaded
