@@ -155,8 +155,10 @@ async def core_download_logic(topic: str, account: dict = None, max_books: int =
         # ---------------------------------------
         
         try:
-            print(f"🔎 Searching: {topic}...")
-            await page.goto(f"{BASE_URL}/s/{topic}")
+            print(f"🔎 Searching: {topic} (PDF only)...")
+            # Filter for PDF format only using Z-Library's extension filter
+            search_url = f"{BASE_URL}/s/{topic}?extensions[]=pdf"
+            await page.goto(search_url)
             
             # --- ROBUST WAIT LOGIC ---
             # Wait for network idle and the custom z-bookcard elements to load
@@ -273,8 +275,8 @@ async def core_download_logic(topic: str, account: dict = None, max_books: int =
                             print(f"   ⏳ Cooling down for {DOWNLOAD_COOLDOWN}s...")
                             await asyncio.sleep(DOWNLOAD_COOLDOWN)
                             
-                            # Go back to search results
-                            await page.goto(f"{BASE_URL}/s/{topic}")
+                            # Go back to search results (keep PDF filter)
+                            await page.goto(f"{BASE_URL}/s/{topic}?extensions[]=pdf")
                             await page.wait_for_load_state("networkidle", timeout=20000)
                             await page.wait_for_selector("z-bookcard.ready", timeout=15000)
                             
@@ -283,9 +285,9 @@ async def core_download_logic(topic: str, account: dict = None, max_books: int =
 
                         except Exception as e:
                             print(f"   ❌ Download failed: {e}")
-                            # Try to go back to search on failure
+                            # Try to go back to search on failure (keep PDF filter)
                             try:
-                                await page.goto(f"{BASE_URL}/s/{topic}")
+                                await page.goto(f"{BASE_URL}/s/{topic}?extensions[]=pdf")
                                 await page.wait_for_load_state("networkidle", timeout=20000)
                                 await page.wait_for_selector("z-bookcard.ready", timeout=15000)
                                 bookcards = await page.locator("z-bookcard.ready").all()
