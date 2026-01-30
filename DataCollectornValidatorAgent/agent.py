@@ -290,6 +290,10 @@ class LibrarianAgent:
                     user_name=self.user_name
                 )
                 
+                # Check if there was an error (site down, etc.)
+                if count == 0 and result.startswith("Site status check failed"):
+                    return f"ERROR: {result}. The site might be down or blocking requests. Try again later."
+                
                 self.downloads_on_current_account += count
                 self.session_downloads.append({
                     "topic": topic,
@@ -297,6 +301,9 @@ class LibrarianAgent:
                     "account": self.current_account['name'],
                     "books": downloaded_books
                 })
+                
+                if count == 0:
+                    return f"No books found for '{topic}'. Try different search terms. Remaining downloads: {self.remaining_downloads}."
                 
                 return f"Successfully downloaded {count} books about '{topic}'. Total session downloads: {sum(d['count'] for d in self.session_downloads)}. Remaining downloads: {self.remaining_downloads}."
             

@@ -1,7 +1,7 @@
 # 🛠️ RAMESH Technical Documentation
 
-> **Version**: 1.0  
-> **Last Updated**: 2025  
+> **Version**: 1.1  
+> **Last Updated**: January 2026  
 > **Author**: Sajak  
 > **For**: Developers & Technical Team Members
 
@@ -111,10 +111,15 @@ RAMESH (**R**etrieve **A**nd **M**anage **E**-books with **S**emantic **H**ashin
     │  ┌───────────┐  │  │  ┌───────────┐  │
     │  │Supabase   │  │  │  │Playwright │  │
     │  │PostgREST  │  │  │  │Browser    │  │
-    │  └───────────┘  │  │  └───────────┘  │
-    └─────────────────┘  └─────────────────┘
-              │                   │
-              ▼                   ▼
+    │  └───────────┘  │  │  └─────┬─────┘  │
+    └─────────────────┘  │        │        │
+              │          │        ▼        │
+              │          │ ┌─────────────┐ │
+              │          │ │check_site_  │ │
+              │          │ │status.py    │ │
+              │          │ └─────┬───────┘ │
+              │          └───────┼─────────┘
+              ▼                  ▼
     ┌─────────────────┐  ┌─────────────────┐
     │   SUPABASE      │  │   Z-LIBRARY     │
     │   Cloud DB      │  │   Website       │
@@ -146,14 +151,22 @@ User Request: "Get me books on machine learning"
                 │
                 ▼
 ┌──────────────────────────────────────────────────────────────────┐
-│ 4. core_download_logic() launches Playwright browser             │
+│ 4. core_download_logic() checks site availability first          │
+│    └── Calls check_site_status() (HEAD request with fallback)    │
+│    └── If NOT OK: Returns error immediately (no browser launch)  │
+│    └── If OK: Proceeds to launch Playwright browser              │
+└──────────────────────────────────────────────────────────────────┘
+                │
+                ▼
+┌──────────────────────────────────────────────────────────────────┐
+│ 5. Playwright browser automation                                 │
 │    └── Sets cookies for Z-Library auth                           │
 │    └── Navigates to search: z-lib.sk/s/{topic}                   │
 └──────────────────────────────────────────────────────────────────┘
                 │
                 ▼
 ┌──────────────────────────────────────────────────────────────────┐
-│ 5. For each <z-bookcard> element found:                          │
+│ 6. For each <z-bookcard> element found:                          │
 │    ├── Extract: title, author, download_path, extension          │
 │    ├── Call memory.check_duplicate(title, author)                │
 │    │   └── Generates embedding via OpenAI                        │
@@ -169,7 +182,9 @@ User Request: "Get me books on machine learning"
                 │
                 ▼
 ┌──────────────────────────────────────────────────────────────────┐
-│ 6. Return results to agent → GPT-4o → User response              │
+│ 7. Return results to agent → GPT-4o → User response              │
+│    └── If site was down: Agent explains issue clearly            │
+│    └── If 0 books found: Agent suggests different search terms   │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -363,7 +378,60 @@ class AgentMemory:
 
 ---
 
-### 3.3 `mcp_server.py` - Download Engine (311 lines)
+### 3.3 `check_site_status.py` - Site Availability Check (35 lines)
+
+Lightweight pre-flight check to verify Z-Library is accessible before launching Playwright.
+
+#### Key Constants
+
+```python
+URL = "https://z-lib.sk/"  # Must match BASE_URL in mcp_server.py
+TIMEOUT = 10               # Request timeout in seconds
+```
+
+#### Function: `check_site_status()`
+
+```python
+def check_site_status() -> str:
+    """
+    Check if Z-Library site is accessible.
+    Uses HEAD first (lightweight), falls back to GET if HEAD fails.
+    
+    Returns:
+        "OK" - Site is accessible
+        "NOT OK: <reason>" - Site is down with specific error
+    """
+```
+
+##### Return Values
+
+| Return | Meaning |
+|--------|---------|  
+| `"OK"` | Site is up and responding |
+| `"NOT OK: Request timed out"` | Site didn't respond in 10s |
+| `"NOT OK: Connection failed - ..."` | Network/DNS error |
+| `"NOT OK: Site is temporarily unavailable (503)"` | Site is down for maintenance |
+| `"NOT OK: Access forbidden (403)"` | Cloudflare/WAF blocking |
+| `"NOT OK: HTTP response code {code}"` | Other HTTP errors |
+
+##### Implementation Logic
+
+```python
+# 1. Try HEAD request first (faster, less bandwidth)
+response = requests.head(URL, timeout=TIMEOUT, allow_redirects=True)
+
+# 2. Some sites block HEAD, fallback to GET on 4xx/5xx
+if response.status_code >= 400:
+    response = requests.get(URL, timeout=TIMEOUT, allow_redirects=True)
+
+# 3. Return status based on response code
+if response.status_code == 200:
+    return "OK"
+```
+
+---
+
+### 3.4 `mcp_server.py` - Download Engine (328 lines)
 
 Core Playwright automation for Z-Library book downloads.
 
@@ -371,8 +439,11 @@ Core Playwright automation for Z-Library book downloads.
 
 ```python
 BASE_URL = "https://z-lib.sk"
-DOWNLOAD_FOLDER = "data/books"
-DB_PATH = "data/resources.json"
+DOWNLOAD_FOLDER = os.path.abspath(os.getenv("DATA_FOLDER", "data/books"))
+RESOURCES_FILE = os.getenv("RESOURCES_FILE", "data/resources.json")
+BROWSER_HEADLESS = os.getenv("BROWSER_HEADLESS", "false").lower() == "true"
+DOWNLOAD_COOLDOWN = int(os.getenv("DOWNLOAD_COOLDOWN", "40"))  # seconds
+LLM_TIMEOUT = int(os.getenv("LLM_TIMEOUT", "30"))  # seconds
 ```
 
 #### Functions
@@ -423,9 +494,29 @@ async def core_download_logic(
     """
     Main download orchestration function.
     
+    IMPORTANT: Calls check_site_status() FIRST before launching browser.
+    If site is down, returns immediately without wasting resources.
+    
     Returns:
         (message: str, count: int, downloaded_books: list[dict])
+        
+    Example returns:
+        ("Site status check failed: ...", 0, [])  # Site down
+        ("Download & Indexing Complete.", 5, [...])  # Success
     """
+```
+
+##### Pre-flight Site Check
+
+```python
+# First check if site is accessible (before launching browser)
+status = check_site_status()
+if not status.startswith("OK"):
+    return (f"Site status check failed: {status}", 0, [])
+
+# Only launch Playwright if site is up
+async with async_playwright() as p:
+    # ... browser automation
 ```
 
 ##### Z-Library DOM Structure
@@ -491,7 +582,7 @@ async with async_playwright() as p:
 
 ---
 
-### 3.4 `accounts.json` - Credentials Store
+### 3.5 `accounts.json` - Credentials Store
 
 ```json
 [
@@ -875,6 +966,9 @@ The shared Supabase database handles all coordination.
 
 | Error | Cause | Solution |
 |-------|-------|----------|
+| `Site status check failed: 503` | Z-Library is down | Wait and try again later |
+| `Site status check failed: 403` | Cloudflare blocking | Use VPN or wait |
+| `Site status check failed: timeout` | Network issue | Check internet connection |
 | `z-bookcard elements not found` | Z-Library page structure changed | Check if site is up, update selectors |
 | `Embedding generation failed` | OpenAI API issue | Check API key, rate limits |
 | `Supabase query failed` | Connection/auth issue | Verify SUPABASE_URL and KEY |
@@ -919,10 +1013,11 @@ Monitor console output for:
 │                 status   - Check remaining downloads                        │
 │                 memory   - View shared memory stats                         │
 │                                                                             │
-│  FILES:         agent.py       - Main entry point                           │
-│                 memory.py      - Supabase cloud memory                      │
-│                 mcp_server.py  - Download engine                            │
-│                 accounts.json  - Z-Library credentials                      │
+│  FILES:         agent.py            - Main entry point                      │
+│                 memory.py           - Supabase cloud memory                 │
+│                 mcp_server.py       - Download engine                       │
+│                 check_site_status.py - Site availability check              │
+│                 accounts.json       - Z-Library credentials                 │
 │                                                                             │
 │  ENV VARS:      OPENAI_API_KEY - Required                                   │
 │                 SUPABASE_URL   - Required                                   │
